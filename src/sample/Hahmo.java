@@ -2,6 +2,7 @@ package sample;
 
 import javafx.geometry.Point2D;
 import javafx.scene.shape.Polygon;
+import javafx.scene.shape.Shape;
 
 public abstract class Hahmo {
 
@@ -18,6 +19,8 @@ public abstract class Hahmo {
     public Polygon getHahmo() {
         return hahmo;
     }
+    public Point2D getLiike() { return liike; }
+
 
     public void TurnLeft(int spd){
         this.hahmo.setRotate(this.hahmo.getRotate() - spd);
@@ -35,5 +38,21 @@ public abstract class Hahmo {
         double muutosY = Math.sin(Math.toRadians(this.hahmo.getRotate()))*0.05;
 
         this.liike = this.liike.add(muutosX,muutosY);
+    }
+    public void Decel(){
+        double muutosX = Math.cos(Math.toRadians(this.hahmo.getRotate()))*0.05;
+        double muutosY = Math.sin(Math.toRadians(this.hahmo.getRotate()))*0.05;
+
+        this.liike = this.liike.subtract(muutosX,muutosY);
+    }
+    public void LiikeRev(){
+        double revX = this.liike.getX()*-1;
+        double revY = this.liike.getY()*-1;
+
+        this.liike = this.liike.multiply(-1);
+    }
+    public boolean Collided(Hahmo toinen){
+        Shape CollArea = Shape.intersect(this.hahmo, toinen.getHahmo());
+        return CollArea.getBoundsInLocal().getWidth() != -1;
     }
 }

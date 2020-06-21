@@ -10,11 +10,11 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import javafx.geometry.Point2D;
 import javafx.scene.shape.Polygon;
+import javafx.scene.shape.Shape;
 import javafx.stage.Stage;
 import javafx.animation.AnimationTimer;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class Main extends Application {
 
@@ -28,11 +28,18 @@ public class Main extends Application {
 
 
         Alus player = new Alus(300,200);
-        Asteroid blockko = new Asteroid();
-        blockko.Accel();
-        blockko.Accel();
+
+        List<Asteroid> AstList = new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
+            Random rnd = new Random();
+            Asteroid ast = new Asteroid(rnd.nextInt(100), rnd.nextInt(100));
+            AstList.add(ast);
+        }
+
         ruutu.getChildren().add(player.getHahmo());
-        ruutu.getChildren().add(blockko.getHahmo());
+        AstList.forEach(ast -> {
+            ruutu.getChildren().add(ast.getHahmo());
+        });
 
 
         Scene scene = new Scene(ruutu);
@@ -45,16 +52,25 @@ public class Main extends Application {
         new AnimationTimer() {
             @Override
             public void handle(long now){
+
+                //if(player.Collided(ast)) {
+                //    player.LiikeRev();
+
                 if(KeysDown.getOrDefault(KeyCode.LEFT,false)) player.TurnLeft(5);
                 if(KeysDown.getOrDefault(KeyCode.RIGHT,false)) player.TurnRight(5);
                 if(KeysDown.getOrDefault(KeyCode.UP, false)) player.Accel();
+                AstList.forEach(ast -> {
+                    if(player.Collided(ast)) player.LiikeRev();
+                    ast.Move();
+                });
+
                 player.Move();
-                blockko.Move();
             }
         }.start();
 
         stage.show();
     }
+
 
     public static void main(String[] args) {
 
