@@ -4,11 +4,21 @@ import javafx.scene.shape.Polygon;
 import java.util.Random;
 
 public class MonikulmioTehdas {
+    public Polygon luoMonikulmio(){
+        Polygon monikulmio = new Polygon();
+        monikulmio.getPoints().addAll(
+          50.0,0.0,
+          50.0,100.0,
+            0.0,100.0,
+            0.0,0.0
+        );
+        return monikulmio;
+    }
 
-    public Polygon luoMonikulmio() {
+    public Polygon luoMonikulmiox() {
         Random rnd = new Random();
 
-        double koko = 10 + rnd.nextInt(30);
+        double koko = 30 + rnd.nextInt(60);
 
         Polygon monikulmio = new Polygon();
         double c1 = Math.cos(Math.PI * 2 / 5);

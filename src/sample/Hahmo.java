@@ -29,14 +29,24 @@ public abstract class Hahmo {
         this.hahmo.setRotate(this.hahmo.getRotate() + spd);
     }
     public void Move(){
+        if(!this.hahmo.getParent().getLayoutBounds().contains(this.hahmo.getBoundsInParent()) &&
+                !this.hahmo.getParent().getLayoutBounds().intersects(this.hahmo.getBoundsInParent())) {
+            if (this.hahmo.getTranslateX() < 0) this.hahmo.setTranslateX(Main.LEVEYS);
+            if (this.hahmo.getTranslateX() > Main.LEVEYS) this.hahmo.setTranslateX(5-this.hahmo.boundsInParentProperty().get().getWidth());
+            if (this.hahmo.getTranslateY() < 0) this.hahmo.setTranslateY(Main.KORKEUS);
+            if (this.hahmo.getTranslateY() > Main.KORKEUS) this.hahmo.setTranslateY(5-this.hahmo.boundsInParentProperty().get().getHeight());
+        }
+
         this.hahmo.setTranslateX(this.hahmo.getTranslateX() + this.liike.getX());
         this.hahmo.setTranslateY(this.hahmo.getTranslateY() + this.liike.getY());
+
+
+
     }
 
     public void Accel(){
         double muutosX = Math.cos(Math.toRadians(this.hahmo.getRotate()))*0.05;
         double muutosY = Math.sin(Math.toRadians(this.hahmo.getRotate()))*0.05;
-
         this.liike = this.liike.add(muutosX,muutosY);
     }
     public void Decel(){
